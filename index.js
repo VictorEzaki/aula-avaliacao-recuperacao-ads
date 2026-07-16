@@ -17,10 +17,15 @@ app.use('/api/v1/pessoa', pessoaRouter)
 database.db
     .sync({ force: false })
     .then((_) => {
-        app.listen(port, () => {
-            console.info(`Servidor rodando na porta ${port}`)
-        })
+        // adicionado if para conseguir rodar mais de uma suíte de testes de api
+        if (process.env.NODE_ENV !== "test") {
+            app.listen(3000, () => {
+                console.log("Servidor rodando na porta 3000");
+            });
+        }
     })
     .catch((e) => {
         console.error(`Não foi possivel conectar com o banco: ${e}`)
     })
+
+module.exports = app;
